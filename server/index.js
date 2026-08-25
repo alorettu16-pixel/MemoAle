@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const cookieParser = require('cookie-parser');
-const crypto = require('crypto');
 const Database = require('better-sqlite3');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 3456;
@@ -11,12 +11,12 @@ const PORT = process.env.PORT || 3456;
 // ─── Auth config ──────────────────────────────────────
 const AUTH_USER = process.env.MEMOALE_USER || 'admin';
 const AUTH_PASS = process.env.MEMOALE_PASS || 'admin';
-const SESSION_SECRET = process.env.MEMOALE_SECRET || crypto.randomBytes(32).toString('hex');
+const JWT_SECRET = process.env.MEMOALE_SECRET || require('crypto').randomBytes(32).toString('hex');
+const PASS_HASH = bcrypt.hashSync(AUTH_PASS, 10);
 
 // ─── Middleware ───────────────────────────────────────
 app.use(cors());
 app.use(express.json());
-app.use(cookieParser(SESSION_SECRET));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // ─── Database ─────────────────────────────────────────
@@ -27,56 +27,69 @@ db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
 db.exec(`
-    CREATE TABLE IF NOT EXISTS clients (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL UNIQUE,
-      created_at TEXT DEFAULT (datetime('now'))
-    );
-    CREATE TABLE IF NOT EXISTS projects (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      client_id INTEGER NOT NULL,
-      name TEXT NOT NULL,
-      web_url TEXT DEFAULT '',
-      repo_url TEXT DEFAULT '',
-      created_at TEXT DEFAULT (datetime('now')),
-      FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-      UNIQUE(client_id, name)
-    );
-  `);
+  CREATE TABLE IF NOT EXISTS clients (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+  CREATE TABLE IF NOT EXISTS projects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    client_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    web_url TEXT DEFAULT '',
+    repo_url TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
+    UNIQUE(client_id, name)
+  );
+`);
 console.log('✓ Database ready');
 
-// ─── API Routes ───────────────────────────────────────
+// ─── Auth helpers ─────────────────────────────────────
+function authMiddleware(req, res, next) {
+  const header = req.headers.authorization;
+  if (!header || !header.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Autenticazione richiesta' });
+  }
+  try {
+    const decoded = jwt.verify(header.slice(7), JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch(e) {
+    res.status(401).json({ error: 'Sessione scaduta o non valida' });
+  }
+}
 
-// Auth check
+// ─── Auth routes ──────────────────────────────────────
 app.get('/api/auth/check', (req, res) => {
-  res.json({ authenticated: !!req.signedCookies.auth });
+  const header = req.headers.authorization;
+  if (!header || !header.startsWith('Bearer ')) return res.json({ authenticated: false });
+  try {
+    jwt.verify(header.slice(7), JWT_SECRET);
+    res.json({ authenticated: true });
+  } catch(e) {
+    res.json({ authenticated: false });
+  }
 });
 
-// Login
 app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === AUTH_USER && password === AUTH_PASS) {
-    res.cookie('auth', '1', { signed: true, httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
-    return res.json({ success: true });
-  }
-  res.status(401).json({ error: 'Credenziali non valide' });
+  if (!username || !password) return res.status(400).json({ error: 'Inserisci username e password' });
+  if (username !== AUTH_USER) return res.status(401).json({ error: 'Credenziali non valide' });
+  if (!bcrypt.compareSync(password, PASS_HASH)) return res.status(401).json({ error: 'Credenziali non valide' });
+
+  const token = jwt.sign({ user: username, ts: Date.now() }, JWT_SECRET, { expiresIn: '7d' });
+  res.json({ success: true, token });
 });
 
-// Logout
 app.post('/api/auth/logout', (req, res) => {
-  res.clearCookie('auth');
   res.json({ success: true });
 });
 
-// Auth middleware
-function requireAuth(req, res, next) {
-  if (req.signedCookies.auth === '1') return next();
-  if (req.path.startsWith('/api/auth/')) return next();
-  res.status(401).json({ error: 'Autenticazione richiesta' });
-}
-app.use('/api', requireAuth);
+// ─── API routes (protected) ───────────────────────────
+app.use('/api/clients', authMiddleware);
+app.use('/api/projects', authMiddleware);
 
-// GET all clients with their projects
 app.get('/api/clients', (req, res) => {
   try {
     const clients = db.prepare('SELECT * FROM clients ORDER BY name').all();
@@ -151,5 +164,4 @@ app.get('*', (req, res) => {
 // ─── Start ────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`📋 MemoAle running on http://localhost:${PORT}`);
-  console.log(`   Open http://localhost:${PORT} in your browser`);
 });

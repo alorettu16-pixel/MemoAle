@@ -21,9 +21,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // ─── Database ─────────────────────────────────────────
-const dbDir = (process.env.RENDER_DISK_PATH || '').trim()
-  ? '/opt/render/project/src/data'
-  : path.join(__dirname, '..', 'data');
+const dbDir = path.join(__dirname, '..', 'data');
 fs.mkdirSync(dbDir, { recursive: true });
 const db = new Database(path.join(dbDir, 'memoale.db'));
 db.pragma('journal_mode = WAL');

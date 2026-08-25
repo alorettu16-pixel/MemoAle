@@ -242,8 +242,8 @@ async function saveClient(id){
 var name=document.getElementById('fClientName').value.trim();
 if(!name){alert('Inserisci il nome del cliente');return}
 try{
-if(id){await API.put('/api/clients/'+id,{name:name});toast('Cliente aggiornato')}
-else{await API.post('/api/clients',{name:name});toast('Cliente creato')}
+if(id){await api().put('/api/clients/'+id,{name:name});toast('Cliente aggiornato')}
+else{await api().post('/api/clients',{name:name});toast('Cliente creato')}
 closeModal();load()
 }catch(e){alert(e.error||'Errore')}
 }
@@ -254,8 +254,8 @@ var web=document.getElementById('fProjWeb').value.trim();
 var repo=document.getElementById('fProjRepo').value.trim();
 if(!name){alert('Inserisci il nome del progetto');return}
 try{
-if(projectId){await API.put('/api/projects/'+projectId,{name:name,web_url:web,repo_url:repo});toast('Progetto aggiornato')}
-else{await API.post('/api/clients/'+clientId+'/projects',{name:name,web_url:web,repo_url:repo});toast('Progetto creato')}
+if(projectId){await api().put('/api/projects/'+projectId,{name:name,web_url:web,repo_url:repo});toast('Progetto aggiornato')}
+else{await api().post('/api/clients/'+clientId+'/projects',{name:name,web_url:web,repo_url:repo});toast('Progetto creato')}
 closeModal();load()
 }catch(e){alert(e.error||'Errore')}
 }

@@ -84,4 +84,4 @@ MemoAle è una Progressive Web App (PWA) con manifest.json e service worker.
 
 ## Copyright
 
-&copy; 2026 **Alessandro Loretti** — Tutti i diritti riservati.
+&copy; 2026 **Alessandro Lorettu** — Tutti i diritti riservati.

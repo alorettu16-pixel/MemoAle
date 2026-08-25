@@ -21,10 +21,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // ─── Database ─────────────────────────────────────────
-const dbDir = process.env.RENDER_DISK_PATH
+const dbDir = (process.env.RENDER_DISK_PATH || '').trim()
   ? '/opt/render/project/src/data'
   : path.join(__dirname, '..', 'data');
-require('fs').mkdirSync(dbDir, { recursive: true });
+fs.mkdirSync(dbDir, { recursive: true });
 const db = new Database(path.join(dbDir, 'memoale.db'));
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');

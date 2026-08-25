@@ -4,7 +4,7 @@
   "description": "MemoAle — Agenda clienti con progetti, link web e repository",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "launch.bat",
     "dev": "node server/index.js",
     "generate-icons": "node scripts/generate-icons.js"
   },
@@ -13,7 +13,6 @@
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^11.7.0",
-    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.3"

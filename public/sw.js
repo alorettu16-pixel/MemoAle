@@ -1,4 +1,4 @@
-const CACHE = 'memoale-v1';
+const CACHE = 'memoale-v2';
 const FILES = ['/', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', e => {

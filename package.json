@@ -1,0 +1,21 @@
+{
+  "name": "memoale",
+  "version": "1.0.0",
+  "description": "MemoAle — Agenda clienti con progetti, link web e repository",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "generate-icons": "node scripts/generate-icons.js"
+  },
+  "author": "Alessandro Loretti",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "canvas": "^3.2.3"
+  }
+}

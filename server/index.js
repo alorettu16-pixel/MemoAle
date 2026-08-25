@@ -1,14 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
 const Database = require('better-sqlite3');
 
 const app = express();
 const PORT = process.env.PORT || 3456;
 
+// ─── Auth config ──────────────────────────────────────
+const AUTH_USER = process.env.MEMOALE_USER || 'admin';
+const AUTH_PASS = process.env.MEMOALE_PASS || 'admin';
+const SESSION_SECRET = process.env.MEMOALE_SECRET || crypto.randomBytes(32).toString('hex');
+
 // ─── Middleware ───────────────────────────────────────
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser(SESSION_SECRET));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // ─── Database ─────────────────────────────────────────
@@ -39,6 +47,36 @@ console.log('✓ Database ready');
 
 // ─── API Routes ───────────────────────────────────────
 
+// Auth check
+app.get('/api/auth/check', (req, res) => {
+  res.json({ authenticated: !!req.signedCookies.auth });
+});
+
+// Login
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === AUTH_USER && password === AUTH_PASS) {
+    res.cookie('auth', '1', { signed: true, httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 });
+    return res.json({ success: true });
+  }
+  res.status(401).json({ error: 'Credenziali non valide' });
+});
+
+// Logout
+app.post('/api/auth/logout', (req, res) => {
+  res.clearCookie('auth');
+  res.json({ success: true });
+});
+
+// Auth middleware
+function requireAuth(req, res, next) {
+  if (req.signedCookies.auth === '1') return next();
+  if (req.path.startsWith('/api/auth/')) return next();
+  res.status(401).json({ error: 'Autenticazione richiesta' });
+}
+app.use('/api', requireAuth);
+
+// GET all clients with their projects
 app.get('/api/clients', (req, res) => {
   try {
     const clients = db.prepare('SELECT * FROM clients ORDER BY name').all();

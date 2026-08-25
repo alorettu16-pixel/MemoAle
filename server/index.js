@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -20,7 +21,9 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // ─── Database ─────────────────────────────────────────
-const dbDir = path.join(__dirname, '..', 'data');
+const dbDir = process.env.RENDER_DISK_PATH
+  ? '/opt/render/project/src/data'
+  : path.join(__dirname, '..', 'data');
 require('fs').mkdirSync(dbDir, { recursive: true });
 const db = new Database(path.join(dbDir, 'memoale.db'));
 db.pragma('journal_mode = WAL');

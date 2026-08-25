@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: memoale
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install --production
+    startCommand: node server/index.js
+    healthCheckPath: /api/auth/check
+    envVars:
+      - key: MEMOALE_USER
+        value: alex
+      - key: MEMOALE_PASS
+        value: cx777ck
+      - key: MEMOALE_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+    disk:
+      name: memoale-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

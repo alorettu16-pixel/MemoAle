@@ -29,7 +29,7 @@ MemoAle/
 
 ```bash
 cd MemoAle
-npm install
+npm install --production
 npm start
 ```
 
@@ -38,10 +38,32 @@ npm start
 1. Copia l'intera cartella `MemoAle` sul VPS
 2. `cd MemoAle && npm install --production`
 3. `chmod +x start.sh`
-4. `./start.sh` (o usa PM2 per persistenza: `pm2 start start.sh --name memoale`)
+4. `./start.sh` (o usa PM2: `pm2 start start.sh --name memoale`)
 
 Di default l'app parte sulla porta **3456**.  
 Modifica con `export PORT=8080` prima di avviare.
+
+## Autenticazione
+
+L'app è protetta da login. Credenziali di default:
+
+- **Username:** `admin`
+- **Password:** `admin`
+
+**Su VPS è OBBLIGATORIO cambiarle** tramite variabili d'ambiente:
+
+```bash
+export MEMOALE_USER=tuo_username
+export MEMOALE_PASS=password_sicura
+export MEMOALE_SECRET=stringa_casuale_lunghissima
+node server/index.js
+```
+
+Oppure via PM2:
+
+```bash
+pm2 start start.sh --name memoale --env="MEMOALE_USER=xxx MEMOALE_PASS=yyy MEMOALE_SECRET=zzz"
+```
 
 ## Installazione su Android
 

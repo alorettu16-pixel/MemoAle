@@ -29,20 +29,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .view{display:none;padding:16px;max-width:600px;margin:0 auto;width:100%;flex:1}
 .view.active{display:block}
 .client-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
-.client-card-header{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
-.client-card-header .avatar{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;color:#fff}
+.client-card-header{display:flex;align-items:center;gap:16px;padding:20px 22px;cursor:pointer}
+.client-card-header .avatar{width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;flex-shrink:0;color:#fff}
 .client-card-header .info{flex:1;min-width:0}
-.client-card-header .info h3{font-size:16px;font-weight:600}
-.client-card-header .info .count{font-size:12px;color:var(--dim)}
+.client-card-header .info h3{font-size:18px;font-weight:600}
+.client-card-header .info .count{font-size:13px;color:var(--dim)}
 .client-card-header .arrow{color:var(--dim);font-size:20px}
 .client-card.open .arrow{transform:rotate(180deg)}
-.projects-wrap{display:none;border-top:1px solid var(--border);padding:14px 18px}
+.projects-wrap{display:none;border-top:1px solid var(--border);padding:18px 22px}
 .client-card.open .projects-wrap{display:block}
-.project-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border-radius:8px;margin-bottom:10px}
+.project-item{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border-radius:10px;margin-bottom:12px}
 .project-item:last-child{margin-bottom:0}
 .project-item .p-info{flex:1;min-width:0}
-.project-item .p-name{font-size:14px;font-weight:600}
-.project-item .p-links{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+.project-item .p-name{font-size:16px;font-weight:600}
+.project-item .p-links{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
 .project-item .p-links a,.project-item .p-links button{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--accent);padding:4px 10px;background:rgba(99,102,241,.1);border-radius:4px;text-decoration:none;border:none;cursor:pointer;font-family:inherit}
 .project-item .p-links a:hover,.project-item .p-links button:hover{background:rgba(99,102,241,.25)}
 .project-item .p-links button.btn-note{color:var(--dim);background:rgba(148,163,184,.12)}
@@ -51,7 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .p-notes-panel{display:none;margin-top:8px;padding:10px 12px;background:var(--surface);border-radius:6px;border:1px solid var(--border);font-size:12px;color:var(--dim);line-height:1.5;white-space:pre-wrap;word-break:break-word}
 .p-notes-panel.show{display:block}
 .project-actions{display:flex;gap:4px;flex-shrink:0}
-.client-creds{display:flex;align-items:flex-start;gap:6px;font-size:11px;color:var(--green);margin-top:5px;line-height:1.4;white-space:pre-wrap}
+.client-creds{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--green);margin-top:6px;line-height:1.5;white-space:pre-wrap}
 .empty{text-align:center;padding:48px 16px;color:var(--dim)}
 .empty svg{width:48px;height:48px;margin-bottom:12px;opacity:.4}
 .empty h3{font-size:16px;margin-bottom:6px;color:var(--text)}
@@ -75,7 +75,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <header class="header">
 <svg class="logo" viewBox="0 0 100 100"><rect x="8" y="8" width="84" height="84" rx="14" fill="#334155"/><rect x="16" y="16" width="68" height="68" rx="8" fill="#1e293b"/><rect x="24" y="24" width="52" height="52" rx="4" fill="#f1f5f9"/><line x1="28" y1="36" x2="72" y2="36" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="46" x2="72" y2="46" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="56" x2="62" y2="56" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="66" x2="55" y2="66" stroke="#cbd5e1" stroke-width="2.5"/><path d="M62 26 L76 40 L64 52 L50 38 Z" fill="#6366f1"/></svg>
 <div><h1>MemoAle</h1><div class="sub">Agenda Clienti</div></div>
-<div class="header-actions" id="headerActions" style="display:none"><button class="btn btn-primary btn-sm" onclick="openModal('client')">+ Cliente</button><button class="btn btn-outline btn-sm" onclick="doLogout()">Esci</button></div>
+<div class="header-actions" id="headerActions" style="display:none"><button class="btn btn-primary btn-sm" onclick="openModal('client')">+ Cliente</button><button class="btn btn-outline btn-sm" onclick="exportCSV()">CSV</button><button class="btn btn-outline btn-sm" onclick="doLogout()">Esci</button></div>
 </header>
 
 <div id="loginView" class="view active" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90dvh;padding:24px">
@@ -128,6 +128,17 @@ function closeModal(){document.getElementById('modalOverlay').classList.remove('
 async function saveClient(id){var name=document.getElementById('fClientName').value.trim();var creds=document.getElementById('fClientCreds').value.trim();if(!name){alert('Inserisci il nome');return}try{if(id){await sb('clients?id=eq.'+id,'PATCH',{name:name,access_creds:creds});toast('Cliente aggiornato')}else{var res=await sb('clients','POST',{name:name,access_creds:creds});toast('Cliente creato')}closeModal();load()}catch(e){alert(e.message||'Errore')}}
 
 async function saveProject(clientId,projectId){var name=document.getElementById('fProjName').value.trim();var web=document.getElementById('fProjWeb').value.trim();var repo=document.getElementById('fProjRepo').value.trim();var notes=document.getElementById('fProjNotes').value.trim();if(!name){alert('Inserisci il nome del progetto');return}try{if(projectId){await sb('projects?id=eq.'+projectId,'PATCH',{name:name,web_url:web,repo_url:repo,notes:notes});toast('Progetto aggiornato')}else{await sb('projects','POST',{client_id:clientId,name:name,web_url:web,repo_url:repo,notes:notes});toast('Progetto creato')}closeModal();load()}catch(e){alert(e.message||'Errore')}}
+
+
+
+function exportCSV(){
+var csv='\uFEFFCliente;Progetto;Web;Repo;Note;CredenzialiAccesso\n';
+for(var ci=0;ci<clients.length;ci++){var c=clients[ci];var projects=c.projects||[];if(!projects.length){csv+=escCSV(c.name)+';;;;;'+escCSV(c.access_creds)+'\n'}else{for(var pi=0;pi<projects.length;pi++){var p=projects[pi];csv+=escCSV(c.name)+';'+escCSV(p.name)+';'+escCSV(p.web_url)+';'+escCSV(p.repo_url)+';'+escCSV(p.notes)+';'+escCSV(c.access_creds)+'\n'}}}
+var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MemoAle_Clienti.csv';a.click();URL.revokeObjectURL(a.href);
+toast('CSV scaricato')
+}
+function escCSV(s){return(''+(s||'')).replace(/"/g,'""').replace(/\n/g,' ').replace(/\r/g,' ')}
 
 async function init(){if(SESSION){try{var r=await fetch(SUPABASE_URL+'/auth/v1/user',{headers:{'apikey':SUPABASE_ANON,'Authorization':'Bearer '+SESSION.access_token}});var j=await r.json();if(j&&!j.error){showView('mainView');document.getElementById('headerActions').style.display='flex';load();return}}catch(ex){}}showView('loginView')}
 init();

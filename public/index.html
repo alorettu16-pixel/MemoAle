@@ -11,14 +11,13 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f172a;--surface:#1e293b;--card:#334155;--border:#475569;--text:#f1f5f9;--dim:#94a3b8;--accent:#6366f1;--accent-hover:#818cf8;--green:#22c55e;--red:#ef4444;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,.4)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px;-webkit-tap-highlight-color:transparent}
-.header{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(12px)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+.header{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px}
 .header .logo{width:36px;height:36px;flex-shrink:0}
 .header h1{font-size:18px;font-weight:600;flex:1}
 .header .sub{font-size:11px;color:var(--dim)}
 .header-actions{display:flex;gap:6px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
-.btn:active{transform:scale(.96)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;font-size:13px;font-weight:500;cursor:pointer;}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-primary:hover{background:var(--accent-hover)}
 .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
@@ -35,7 +34,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .client-card-header .info{flex:1}
 .client-card-header .info h3{font-size:15px;font-weight:500}
 .client-card-header .info .count{font-size:11px;color:var(--dim)}
-.client-card-header .arrow{color:var(--dim);font-size:18px;transition:transform .2s}
+.client-card-header .arrow{color:var(--dim);font-size:18px}
 .client-card.open .arrow{transform:rotate(180deg)}
 .projects-wrap{display:none;border-top:1px solid var(--border);padding:12px 16px}
 .client-card.open .projects-wrap{display:block}
@@ -44,238 +43,85 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .project-item .p-info{flex:1;min-width:0}
 .project-item .p-name{font-size:13px;font-weight:500}
 .project-item .p-links{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
-.project-item .p-links a{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--accent);text-decoration:none;padding:3px 8px;background:rgba(99,102,241,.1);border-radius:4px}
+.project-item .p-links a{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--accent);padding:3px 8px;background:rgba(99,102,241,.1);border-radius:4px;text-decoration:none}
 .project-item .p-links a:hover{background:rgba(99,102,241,.25)}
-.project-item .p-links a svg{width:12px;height:12px;flex-shrink:0}
 .project-actions{display:flex;gap:4px;flex-shrink:0}
 .empty{text-align:center;padding:48px 16px;color:var(--dim)}
 .empty svg{width:48px;height:48px;margin-bottom:12px;opacity:.4}
 .empty h3{font-size:16px;margin-bottom:6px;color:var(--text)}
 .empty p{font-size:13px}
-.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);align-items:flex-end;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{background:var(--surface);border-radius:16px 16px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px;animation:slideUp .25s ease}
-@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal{background:var(--surface);border-radius:16px 16px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px}
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:12px;color:var(--dim);margin-bottom:4px;font-weight:500}
-.form-group input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:14px;outline:none}
-.form-group input:focus{border-color:var(--accent)}
-.form-group input::placeholder{color:var(--dim);opacity:.6}
-.form-row{display:flex;gap:8px}
-.form-row .form-group{flex:1}
+.form-group input,.form-group textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:14px;outline:none}
+.form-group textarea{resize:vertical;font-family:inherit}
+.client-creds{display:flex;align-items:flex-start;gap:6px;font-size:11px;color:var(--green);margin-top:4px;line-height:1.4}
+.project-item .p-notes{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:var(--dim);margin-top:4px;line-height:1.4}
 .footer{text-align:center;padding:24px 16px;font-size:11px;color:var(--dim);border-top:1px solid var(--border);margin-top:16px}
 .footer strong{color:var(--text)}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);padding:10px 20px;border-radius:8px;border:1px solid var(--border);font-size:13px;box-shadow:var(--shadow);z-index:300;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);padding:10px 20px;border-radius:8px;border:1px solid var(--border);font-size:13px;z-index:300;opacity:0;pointer-events:none}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
-
 <header class="header">
 <svg class="logo" viewBox="0 0 100 100"><rect x="8" y="8" width="84" height="84" rx="14" fill="#334155"/><rect x="16" y="16" width="68" height="68" rx="8" fill="#1e293b"/><rect x="24" y="24" width="52" height="52" rx="4" fill="#f1f5f9"/><line x1="28" y1="36" x2="72" y2="36" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="46" x2="72" y2="46" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="56" x2="62" y2="56" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="66" x2="55" y2="66" stroke="#cbd5e1" stroke-width="2.5"/><path d="M62 26 L76 40 L64 52 L50 38 Z" fill="#6366f1"/></svg>
 <div><h1>MemoAle</h1><div class="sub">Agenda Clienti</div></div>
-<div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openModal('client')">+ Cliente</button><button class="btn btn-outline btn-sm" onclick="doLogout()" title="Logout">Esci</button></div>
+<div class="header-actions" id="headerActions" style="display:none"><button class="btn btn-primary btn-sm" onclick="openModal('client')">+ Cliente</button><button class="btn btn-outline btn-sm" onclick="doLogout()">Esci</button></div>
 </header>
 
 <div id="loginView" class="view active" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90dvh;padding:24px">
-  <svg class="logo" viewBox="0 0 100 100" style="width:64px;height:64px;margin-bottom:16px"><rect x="8" y="8" width="84" height="84" rx="14" fill="#334155"/><rect x="16" y="16" width="68" height="68" rx="8" fill="#1e293b"/><rect x="24" y="24" width="52" height="52" rx="4" fill="#f1f5f9"/><line x1="28" y1="36" x2="72" y2="36" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="46" x2="72" y2="46" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="56" x2="62" y2="56" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="66" x2="55" y2="66" stroke="#cbd5e1" stroke-width="2.5"/><path d="M62 26 L76 40 L64 52 L50 38 Z" fill="#6366f1"/></svg>
-  <h1 style="font-size:24px;font-weight:600;margin-bottom:4px">MemoAle</h1>
-  <p style="color:var(--dim);margin-bottom:24px;font-size:14px">Inserisci le credenziali per accedere</p>
-  <div style="width:100%;max-width:320px">
-    <div class="form-group"><label>Username</label><input id="loginUser" type="text" placeholder="admin"></div>
-    <div class="form-group"><label>Password</label><input id="loginPass" type="password" placeholder="admin"></div>
-    <button class="btn btn-primary" onclick="doLogin()" style="width:100%;padding:12px;font-size:15px">Accedi</button>
-    <div id="loginError" style="color:var(--red);font-size:13px;margin-top:10px;text-align:center"></div>
-  </div>
-</div>
+<svg class="logo" viewBox="0 0 100 100" style="width:64px;height:64px;margin-bottom:16px"><rect x="8" y="8" width="84" height="84" rx="14" fill="#334155"/><rect x="16" y="16" width="68" height="68" rx="8" fill="#1e293b"/><rect x="24" y="24" width="52" height="52" rx="4" fill="#f1f5f9"/><line x1="28" y1="36" x2="72" y2="36" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="46" x2="72" y2="46" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="56" x2="62" y2="56" stroke="#cbd5e1" stroke-width="2.5"/><line x1="28" y1="66" x2="55" y2="66" stroke="#cbd5e1" stroke-width="2.5"/><path d="M62 26 L76 40 L64 52 L50 38 Z" fill="#6366f1"/></svg>
+<h1 style="font-size:24px;font-weight:600;margin-bottom:4px">MemoAle</h1>
+<p style="color:var(--dim);margin-bottom:24px;font-size:14px">Accedi per gestire i tuoi clienti</p>
+<div style="width:100%;max-width:320px"><div class="form-group"><label>Email</label><input id="loginEmail" type="email" placeholder="tua@email.it"></div><div class="form-group"><label>Password</label><input id="loginPass" type="password" placeholder="password"></div><button class="btn btn-primary" onclick="doLogin()" style="width:100%;padding:12px;font-size:15px">Accedi</button><div style="margin-top:10px;text-align:center;font-size:12px;color:var(--dim)">Non hai un account? <a href="#" onclick="showRegister();return false" style="color:var(--accent)">Registrati</a></div><div id="loginError" style="color:var(--red);font-size:13px;margin-top:10px;text-align:center"></div></div></div>
 
-<div id="mainView" class="view">
-<div id="clientList"></div>
-<div id="emptyState" class="empty">
-<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
-<h3>Nessun cliente</h3><p>Aggiungi il primo cliente per iniziare</p>
-</div>
-<div class="footer">&copy; 2026 <strong>Alessandro Lorettu</strong> &mdash; MemoAle v1.0</div>
-</div>
+<div id="registerView" class="view" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:90dvh;padding:24px"><h2 style="font-size:20px;margin-bottom:16px">Registrazione</h2><div style="width:100%;max-width:320px"><div class="form-group"><label>Email</label><input id="regEmail" type="email" placeholder="tua@email.it"></div><div class="form-group"><label>Password</label><input id="regPass" type="password" placeholder="almeno 6 caratteri"></div><button class="btn btn-primary" onclick="doRegister()" style="width:100%;padding:12px;font-size:15px">Registrati</button><div style="margin-top:10px;text-align:center;font-size:12px;color:var(--dim)">Già registrato? <a href="#" onclick="showLogin();return false" style="color:var(--accent)">Accedi</a></div><div id="regError" style="color:var(--red);font-size:13px;margin-top:10px;text-align:center"></div></div></div>
+
+<div id="mainView" class="view"><div id="clientList"></div><div id="emptyState" class="empty"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg><h3>Nessun cliente</h3><p>Aggiungi il primo cliente per iniziare</p></div><div class="footer">&copy; 2026 <strong>Alessandro Lorettu</strong> &mdash; MemoAle v2.0</div></div>
 
 <div id="toast" class="toast"></div>
-
-<div id="modalOverlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
-<div class="modal">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-<h2 id="modalTitle">Titolo</h2>
-<button class="btn btn-icon btn-outline" onclick="closeModal()">&times;</button>
-</div>
-<div id="modalBody"></div>
-</div>
-</div>
-
+<div id="modalOverlay" class="modal-overlay" onclick="if(event.target===this)closeModal()"><div class="modal"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h2 id="modalTitle">Titolo</h2><button class="btn btn-icon btn-outline" onclick="closeModal()">&times;</button></div><div id="modalBody"></div></div></div>
 <script>
-var clients=[];
-var editing=null;
-var TOKEN=localStorage.getItem('memoale_token')||null;
-
-function api(){
-var h={'Content-Type':'application/json'};
-if(TOKEN)h['Authorization']='Bearer '+TOKEN;
-return{
-get:async function(u){var r=await fetch(u,{headers:h});if(!r.ok)throw await r.json();return r.json()},
-post:async function(u,b){var r=await fetch(u,{method:'POST',headers:h,body:JSON.stringify(b)});var j=await r.json();if(!r.ok)throw j;return j},
-put:async function(u,b){var r=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify(b)});var j=await r.json();if(!r.ok)throw j;return j},
-del:async function(u){var r=await fetch(u,{method:'DELETE',headers:h});var j=await r.json();if(!r.ok)throw j;return j}
-};
-}
-
+var SUPABASE_URL='https://aflchucwyofmbejgpkdp.supabase.co';
+var SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmbGNodWN3eW9mbWJlamdwa2RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3MDg4NDksImV4cCI6MjEwMzI4NDg0OX0.kdt_HVnGoFycQXwsD93V--eGs4-gfQzY3eRNEUTctjs';
+var clients=[], editing=null, SESSION=null;
+try{SESSION=JSON.parse(localStorage.getItem('memoale_session'))}catch(e){}
 function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000)}
+function sbH(hasBody){var h={'apikey':SUPABASE_ANON,'Content-Type':'application/json','Prefer':hasBody?'return=representation':'return=minimal'};if(SESSION&&SESSION.access_token)h['Authorization']='Bearer '+SESSION.access_token;return h}
+async function sb(path,m,body){var r=await fetch(SUPABASE_URL+'/rest/v1/'+path,{method:m||'GET',headers:sbH(!!body),body:body?JSON.stringify(body):null});if(!r.ok){try{var e=await r.json()}catch(ex){throw Error(r.status)}throw Error(e.message||r.status)}if(m==='DELETE'||r.headers.get('content-length')==='0')return null;return r.json()}
+function showView(id){document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');v.style.display='none'});var el=document.getElementById(id);el.style.display='flex';el.classList.add('active')}
+function showLogin(){showView('loginView')}
+function showRegister(){document.getElementById('loginView').style.display='none';document.getElementById('registerView').style.display='flex';showView('registerView')}
 
-function showView(id){
-document.getElementById('loginView').classList.remove('active');
-document.getElementById('loginView').style.display='none';
-document.getElementById('mainView').classList.remove('active');
-document.getElementById(id).classList.add('active');
-document.getElementById(id).style.display='block';
-}
+async function doLogin(){var em=document.getElementById('loginEmail').value.trim();var pw=document.getElementById('loginPass').value.trim();var er=document.getElementById('loginError');if(!em||!pw){er.textContent='Inserisci email e password';return}try{var r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SUPABASE_ANON,'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})});var j=await r.json();if(j.error){er.textContent=j.error_description||j.error;return}SESSION=j;localStorage.setItem('memoale_session',JSON.stringify(j));er.textContent='';showView('mainView');document.getElementById('headerActions').style.display='flex';load()}catch(ex){er.textContent='Errore di connessione'}}
 
-async function doLogin(){
-var user=document.getElementById('loginUser').value.trim();
-var pass=document.getElementById('loginPass').value.trim();
-var err=document.getElementById('loginError');
-if(!user||!pass){err.textContent='Inserisci username e password';return}
-try{
-var r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:user,password:pass})});
-var j=await r.json();
-if(!r.ok){err.textContent=j.error||'Errore di login';return}
-TOKEN=j.token;
-localStorage.setItem('memoale_token',TOKEN);
-err.textContent='';
-showView('mainView');
-load();
-}catch(e){err.textContent='Errore di connessione'}
-}
+async function doRegister(){var em=document.getElementById('regEmail').value.trim();var pw=document.getElementById('regPass').value.trim();var er=document.getElementById('regError');if(!em||!pw){er.textContent='Inserisci email e password';return}if(pw.length<6){er.textContent='Password: almeno 6 caratteri';return}try{var r=await fetch(SUPABASE_URL+'/auth/v1/signup',{method:'POST',headers:{'apikey':SUPABASE_ANON,'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})});var j=await r.json();if(j.error){er.textContent=j.error_description||j.error;return}er.textContent='';alert('Registrazione effettuata! Controlla la tua email per confermare.');showLogin()}catch(ex){er.textContent='Errore di connessione'}}
 
-async function doLogout(){
-TOKEN=null;
-localStorage.removeItem('memoale_token');
-showView('loginView');
-}
+function doLogout(){SESSION=null;localStorage.removeItem('memoale_session');document.getElementById('headerActions').style.display='none';showView('loginView')}
 
-document.addEventListener('keydown',function(e){
-if(e.key==='Enter'&&document.getElementById('loginView').classList.contains('active'))doLogin();
-});
-
-async function load(){
-try{
-var clientsData=await api().get('/api/clients');
-clients=clientsData;
-render();
-}catch(e){
-if(e&&(e.error==='Autenticazione richiesta'||e.error==='Sessione scaduta o non valida')){doLogout()}
-}
-}
+async function load(){try{var d=await sb('clients?order=name.asc');var out=[];for(var i=0;i<d.length;i++){var c=d[i];var ps=await sb('projects?client_id=eq.'+c.id+'&order=name.asc');c.projects=ps;out.push(c)}clients=out;render()}catch(ex){if(ex.message&&ex.message.includes('401'))doLogout()}}
 
 function toggleClient(el){el.classList.toggle('open')}
 
-function delClient(id){
-if(!confirm('Eliminare questo cliente e tutti i suoi progetti?'))return;
-api().del('/api/clients/'+id).then(function(){load()}).catch(function(e){toast(e.error||'Errore')});
-}
+function delClient(id){if(!confirm('Eliminare questo cliente e tutti i suoi progetti?'))return;sb('clients?id=eq.'+id,'DELETE').then(function(){load()}).catch(function(e){toast('Errore eliminazione')})}
+function delProject(cid,pid){if(!confirm('Eliminare questo progetto?'))return;sb('projects?id=eq.'+pid,'DELETE').then(function(){load()}).catch(function(e){toast('Errore eliminazione')})}
 
-function delProject(cid,pid){
-if(!confirm('Eliminare questo progetto?'))return;
-api().del('/api/projects/'+pid).then(function(){load()}).catch(function(e){toast(e.error||'Errore')});
-}
+function render(){var list=document.getElementById('clientList');var empty=document.getElementById('emptyState');if(!clients.length){list.innerHTML='';empty.style.display='block';return}empty.style.display='none';var html='';for(var ci=0;ci<clients.length;ci++){var c=clients[ci];var i=c.name.charAt(0).toUpperCase();var phtml='';for(var pi=0;pi<(c.projects||[]).length;pi++){var p=c.projects[pi];var w=p.web_url?'<a href="'+esc(p.web_url)+'">Web</a>':'';var r=p.repo_url?'<a href="'+esc(p.repo_url)+'">Repo</a>':'';var n=p.notes?'<div class="p-notes">'+esc(p.notes)+'</div>':'';phtml+='<div class="project-item"><div class="p-info"><div class="p-name">'+esc(p.name)+'</div><div class="p-links">'+w+r+'</div>'+n+'</div><div class="project-actions"><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();openModal(\'project\','+c.id+','+p.id+')">Modifica</button><button class="btn btn-sm btn-outline btn-danger" onclick="event.stopPropagation();delProject('+c.id+','+p.id+')">Elimina</button></div></div>'}var creds=c.access_creds?'<div class="client-creds">'+esc(c.access_creds)+'</div>':'';html+='<div class="client-card'+(c.projects&&c.projects.length?' open':'')+'" onclick="toggleClient(this)"><div class="client-card-header"><div class="avatar">'+esc(i)+'</div><div class="info"><h3>'+esc(c.name)+'</h3><div class="count">'+(c.projects||[]).length+' progetti</div>'+creds+'</div></div><div class="projects-wrap"><button class="btn btn-sm btn-outline btn-green" onclick="event.stopPropagation();openModal(\'project\','+c.id+')" style="margin-bottom:10px">+ Progetto</button>'+phtml+'</div></div>'}list.innerHTML=html}
 
-function render(){
-var list=document.getElementById('clientList');
-var empty=document.getElementById('emptyState');
-if(!clients.length){list.innerHTML='';empty.style.display='block';return}
-empty.style.display='none';
-var html='';
-for(var ci=0;ci<clients.length;ci++){
-var c=clients[ci];
-var i=c.name.charAt(0).toUpperCase();
-var phtml='';
-for(var pi=0;pi<(c.projects||[]).length;pi++){
-var p=c.projects[pi];
-var w=p.web_url?'<a href="'+esc(p.web_url)+'" target="_blank" rel="noopener"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg> Sito</a>':'';
-var r=p.repo_url?'<a href="'+esc(p.repo_url)+'" target="_blank" rel="noopener"><svg fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.57 7.57 0 012 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> Repo</a>':'';
-phtml+='<div class="project-item"><div class="p-info"><div class="p-name">'+esc(p.name)+'</div><div class="p-links">'+w+r+'</div></div><div class="project-actions"><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();openModal(\'project\','+c.id+','+p.id+')">Modifica</button><button class="btn btn-sm btn-outline btn-danger" onclick="event.stopPropagation();delProject('+c.id+','+p.id+')">Elimina</button></div></div>';
-}
-html+='<div class="client-card'+(c.projects&&c.projects.length?' open':'')+'" onclick="toggleClient(this)"><div class="client-card-header"><div class="avatar">'+esc(i)+'</div><div class="info"><h3>'+esc(c.name)+'</h3><div class="count">'+(c.projects||[]).length+' progetti</div></div><div style="display:flex;gap:4px;flex-shrink:0" onclick="event.stopPropagation()"><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();openModal(\'client\','+c.id+')">Modifica</button><button class="btn btn-sm btn-outline btn-danger" onclick="event.stopPropagation();delClient('+c.id+')">Elimina</button></div><span class="arrow">&#x25BE;</span></div><div class="projects-wrap"><button class="btn btn-sm btn-outline btn-green" onclick="event.stopPropagation();openModal(\'project\','+c.id+')" style="margin-bottom:10px">+ Progetto</button>'+phtml+'</div></div>';
-}
-list.innerHTML=html;
-}
+function openModal(type,clientId,projectId){var overlay=document.getElementById('modalOverlay');var title=document.getElementById('modalTitle');var body=document.getElementById('modalBody');editing=null;if(type==='client'){var isEdit=clientId!==undefined;var c=isEdit?clients.find(function(x){return x.id===clientId}):null;title.textContent=isEdit?'Modifica Cliente':'Nuovo Cliente';body.innerHTML='<div class="form-group"><label>Nome cliente</label><input id="fClientName" type="text" value="'+esc(isEdit?c.name:'')+'" placeholder="es. Mario Rossi"></div><div class="form-group"><label>Credenziali VPN / Accesso</label><textarea id="fClientCreds" rows="3" placeholder="IP, username, password...">'+esc(isEdit?c.access_creds:'')+'</textarea></div><button class="btn btn-primary" onclick="saveClient('+(isEdit?clientId:'')+')">'+(isEdit?'Salva':'Aggiungi')+'</button>';overlay.classList.add('show');setTimeout(function(){document.getElementById('fClientName').focus()},300)}else if(type==='project'){var isEdit=projectId!==undefined;var c=clients.find(function(x){return x.id===clientId});var p=isEdit?(c.projects||[]).find(function(x){return x.id===projectId}):null;editing={clientId:clientId};title.textContent=isEdit?'Modifica Progetto':'Nuovo Progetto per '+esc(c.name);body.innerHTML='<div class="form-group"><label>Nome progetto</label><input id="fProjName" type="text" value="'+esc(isEdit?p.name:'')+'" placeholder="es. Sito Web"></div><div class="form-group"><label>Link Sito</label><input id="fProjWeb" type="url" value="'+esc(isEdit?p.web_url:'')+'" placeholder="https://..."></div><div class="form-group"><label>Link Repo</label><input id="fProjRepo" type="url" value="'+esc(isEdit?p.repo_url:'')+'" placeholder="https://..."></div><div class="form-group"><label>Note</label><textarea id="fProjNotes" rows="4" placeholder="Note libere...">'+esc(isEdit?p.notes:'')+'</textarea></div><button class="btn btn-primary" onclick="saveProject('+clientId+','+(isEdit?projectId:'')+')">'+(isEdit?'Salva':'Aggiungi')+'</button>';overlay.classList.add('show');setTimeout(function(){document.getElementById('fProjName').focus()},300)}}
 
-function openModal(type,clientId,projectId){
-var overlay=document.getElementById('modalOverlay');
-var title=document.getElementById('modalTitle');
-var body=document.getElementById('modalBody');
-editing=null;
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show');editing=null}
 
-if(type==='client'){
-var isEdit=clientId!==undefined;
-var c=isEdit?clients.find(function(x){return x.id===clientId}):null;
-title.textContent=isEdit?'Modifica Cliente':'Nuovo Cliente';
-body.innerHTML='<div class="form-group"><label>Nome cliente</label><input id="fClientName" type="text" value="'+esc(isEdit?c.name:'')+'" placeholder="es. Mario Rossi"></div><button class="btn btn-primary" onclick="saveClient('+(isEdit?clientId:'')+')">'+(isEdit?'Salva modifiche':'Aggiungi cliente')+'</button>';
-overlay.classList.add('show');
-setTimeout(function(){document.getElementById('fClientName').focus()},300);
+async function saveClient(id){var name=document.getElementById('fClientName').value.trim();var creds=document.getElementById('fClientCreds').value.trim();if(!name){alert('Inserisci il nome');return}try{if(id){await sb('clients?id=eq.'+id,'PATCH',{name:name,access_creds:creds});toast('Cliente aggiornato')}else{var res=await sb('clients','POST',{name:name,access_creds:creds});toast('Cliente creato')}closeModal();load()}catch(e){alert(e.message||'Errore')}}
 
-}else if(type==='project'){
-var isEdit=projectId!==undefined;
-var c=clients.find(function(x){return x.id===clientId});
-var p=isEdit?(c.projects||[]).find(function(x){return x.id===projectId}):null;
-editing={clientId:clientId};
-title.textContent=isEdit?'Modifica Progetto':'Nuovo Progetto per '+esc(c.name);
-body.innerHTML='<div class="form-group"><label>Nome progetto</label><input id="fProjName" type="text" value="'+esc(isEdit?p.name:'')+'" placeholder="es. Sito Web Aziendale"></div><div class="form-group"><label>Link Sito Web</label><input id="fProjWeb" type="url" value="'+esc(isEdit?p.web_url:'')+'" placeholder="https://miosito.it"></div><div class="form-group"><label>Link Repository (Bitbucket)</label><input id="fProjRepo" type="url" value="'+esc(isEdit?p.repo_url:'')+'" placeholder="https://bitbucket.org/mio/repo"></div><button class="btn btn-primary" onclick="saveProject('+clientId+','+(isEdit?projectId:'')+')">'+(isEdit?'Salva modifiche':'Aggiungi progetto')+'</button>';
-overlay.classList.add('show');
-setTimeout(function(){document.getElementById('fProjName').focus()},300);
-}
-}
+async function saveProject(clientId,projectId){var name=document.getElementById('fProjName').value.trim();var web=document.getElementById('fProjWeb').value.trim();var repo=document.getElementById('fProjRepo').value.trim();var notes=document.getElementById('fProjNotes').value.trim();if(!name){alert('Inserisci il nome del progetto');return}try{if(projectId){await sb('projects?id=eq.'+projectId,'PATCH',{name:name,web_url:web,repo_url:repo,notes:notes});toast('Progetto aggiornato')}else{await sb('projects','POST',{client_id:clientId,name:name,web_url:web,repo_url:repo,notes:notes});toast('Progetto creato')}closeModal();load()}catch(e){alert(e.message||'Errore')}}
 
-function closeModal(){
-document.getElementById('modalOverlay').classList.remove('show');
-editing=null;
-}
-
-async function saveClient(id){
-var name=document.getElementById('fClientName').value.trim();
-if(!name){alert('Inserisci il nome del cliente');return}
-try{
-if(id){await api().put('/api/clients/'+id,{name:name});toast('Cliente aggiornato')}
-else{await api().post('/api/clients',{name:name});toast('Cliente creato')}
-closeModal();load()
-}catch(e){alert(e.error||'Errore')}
-}
-
-async function saveProject(clientId,projectId){
-var name=document.getElementById('fProjName').value.trim();
-var web=document.getElementById('fProjWeb').value.trim();
-var repo=document.getElementById('fProjRepo').value.trim();
-if(!name){alert('Inserisci il nome del progetto');return}
-try{
-if(projectId){await api().put('/api/projects/'+projectId,{name:name,web_url:web,repo_url:repo});toast('Progetto aggiornato')}
-else{await api().post('/api/clients/'+clientId+'/projects',{name:name,web_url:web,repo_url:repo});toast('Progetto creato')}
-closeModal();load()
-}catch(e){alert(e.error||'Errore')}
-}
-
-// Register service worker
-if('serviceWorker' in navigator){
-navigator.serviceWorker.register('/sw.js').then(function(reg){console.log('SW registered',reg)}).catch(function(e){console.log('SW error',e)});
-}
-
-// Init
-(async function(){
-if(TOKEN){
-try{
-var auth=await fetch('/api/auth/check',{headers:{'Authorization':'Bearer '+TOKEN}});
-var j=await auth.json();
-if(j.authenticated){showView('mainView');load();return}
-}catch(e){}
-}
-showView('loginView');
-})();
+async function init(){if(SESSION){try{var r=await fetch(SUPABASE_URL+'/auth/v1/user',{headers:{'apikey':SUPABASE_ANON,'Authorization':'Bearer '+SESSION.access_token}});var j=await r.json();if(j&&!j.error){showView('mainView');document.getElementById('headerActions').style.display='flex';load();return}}catch(ex){}}showView('loginView')}
+init();
 </script>
 </body>
 </html>
